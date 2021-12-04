@@ -1,4 +1,5 @@
 import hashlib
+import os
 import re
 
 
@@ -151,6 +152,7 @@ def f10(year, month, day):
 
 
 def f11():
+    # Vergleich von 2 Dateien, ob sie identisch sind über Hashes
     with open("data/dictionary.txt", "rb") as f:
         h1 = hashlib.sha1(f.read())
     with open("data/dictionary_copy.txt", "rb") as f:
@@ -162,9 +164,25 @@ def f11():
     else:
         print("different")
 
+
+def f12():
+    # Suchen nach Duplikaten in Verzeichnis
+    files = os.listdir("data/")
+    filesize = dict()
+    for f in files:
+        filesize[f] = os.stat("data/" + f).st_size
+
+    # Suchen nach identischen Dateigrößen
+    rev_filesize = {}
+    for key, value in filesize.items():
+        rev_filesize.setdefault(value, set()).add(key)
+    result = filter(lambda x: len(x) > 1, rev_filesize.values())
+    # Alle Duplikate, nicht nur Grüppchen von gleich großen Dateien :(
+    print(list(result))
+
     None
 
 if __name__ == '__main__':
     # res1 = f10(2005, "3", 31)
-    f11()
+    f12()
     None
