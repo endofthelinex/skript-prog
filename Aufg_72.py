@@ -206,7 +206,24 @@ def f13():
         return hashes
 
     hashes = computeHashes(files)
+
+    dups = dict()
+    for qfn in hashes:
+        sha1 = hashes[qfn]
+        l = dups.get(sha1, [sha1])  # Wenn nicht existiert dann Liste erstellen
+        l.append(qfn)
+        dups[sha1] = l
+
+    result = filter(lambda x: len(x) > 2, dups.values())
+    result = list(result)
+
+    for res in result:
+        print("\nMehrfach")
+        files = res[1:]
+        for file in files:
+            print(file)
     None
+
 
 if __name__ == '__main__':
     # res1 = f10(2005, "3", 31)
