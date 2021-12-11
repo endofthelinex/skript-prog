@@ -182,7 +182,33 @@ def f12():
 
     None
 
+
+def f13():
+    # Version Prof für Duplikate in Verzeichnis
+
+    def fileWalk():
+        fileList = list()
+        for path, dirs, files in os.walk("data/fileparse/"):
+            for file in files:
+                entry = os.path.join(path, file)
+                fileList.append(entry)
+        return fileList
+
+    files = fileWalk()
+
+    def computeHashes(list):
+        hashes = dict()
+        for file in list:
+            with open(file, "rb") as f:
+                m = hashlib.sha1(f.read())
+            digest = m.hexdigest()
+            hashes[file] = digest
+        return hashes
+
+    hashes = computeHashes(files)
+    None
+
 if __name__ == '__main__':
     # res1 = f10(2005, "3", 31)
-    f12()
+    f13()
     None
