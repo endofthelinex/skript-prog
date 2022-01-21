@@ -1,7 +1,7 @@
 # Aufgabe Klassen und Objekte Skript
 
 
-class Kontobewegungen:
+class Kontoverwaltung:
     def __init__(self):
         self.transfers = []
         self.konten = []
@@ -19,20 +19,19 @@ class Kontobewegungen:
 
 class Transfer_log:
     def __init__(self, sender, empfaenger, betrag):
-        if  issubclass(sender, Kontobewegungen):  # TODO: Function must handle object and string as input!
+        if isinstance(sender, Konto):
             self.sender = sender.name
         else:
             self.sender = sender
-        if  issubclass(empfaenger, Kontobewegungen):
+        if isinstance(empfaenger, Konto):
             self.empfaenger = empfaenger.name
         else:
             self.empfaenger = empfaenger
         self.betrag = betrag
 
 
-class Konto(Kontobewegungen):
+class Konto(Kontoverwaltung):
     def __init__(self, name, balance, dispo, creator):
-        super().__init__()
         self.name = name
         self.balance = balance
         self.dispo = dispo
@@ -61,20 +60,28 @@ class Konto(Kontobewegungen):
         empfaenger.einzahlen(betrag)
         self.creator.new_transfer(sender, empfaenger, betrag)
 
+    def guth(self):
+        return self.dispo == 0
 
-Kontobew = Kontobewegungen()
+    istGuthabenKonto = property(guth)
 
-k1 = Kontobew.new_konto('Fredi', 1000)
-k2 = Kontobew.new_konto('Hans', 2000)
+
+Kontoverw = Kontoverwaltung()
+
+k1 = Kontoverw.new_konto('Fredi', 1000)
+k2 = Kontoverw.new_konto('Hans', 2000)
 
 k1.einzahlen(500)
 
 k2.transferieren(k1, 500)
 k1.transferieren(k2, 300)
 
-k3 = Kontobew.new_konto('Peter', 500, 200)
-print(k3.auszahlen(600), k3.balance)
-print(k3.auszahlen(600), k3.balance)
+# Dispo Test
+# k3 = Kontoverw.new_konto('Peter', 500, 200)
+# print(k3.auszahlen(600), k3.balance)
+# print(k3.auszahlen(600), k3.balance)
 
-Kontobew.print_tranfers()
+print('Guthabenkonto?', k1.istGuthabenKonto)
+
+Kontoverw.print_tranfers()
 None
