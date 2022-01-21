@@ -30,7 +30,7 @@ class Transfer_log:
         self.betrag = betrag
 
 
-class Konto(Kontoverwaltung):
+class Konto():
     def __init__(self, name, balance, dispo, creator):
         self.name = name
         self.balance = balance
@@ -84,4 +84,3 @@ k1.transferieren(k2, 300)
 print('Guthabenkonto?', k1.istGuthabenKonto)
 
 Kontoverw.print_tranfers()
-None
